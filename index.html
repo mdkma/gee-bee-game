@@ -256,11 +256,46 @@
         ctx.fillStyle = "#EEE";
         ctx.fill();
         ctx.closePath();
-
     }
+
+    function drawInside() {
+        ctx.beginPath();
+        ctx.moveTo(150, 180);
+        ctx.lineTo(150, 200);
+        ctx.lineTo(165, 215);
+        ctx.lineTo(180, 215);
+        ctx.lineTo(195, 200);
+        ctx.lineTo(195, 180);
+        ctx.lineTo(180, 165);
+        ctx.lineTo(165, 165);
+        ctx.fillStyle = '#FFF';
+        ctx.fill();
+        ctx.closePath();
+        ctx.font = "23px Arial";
+        ctx.fillStyle = "#000";
+        ctx.fillText("10", 158, 198);
+
+        ctx.beginPath();
+        ctx.moveTo(325, 180);
+        ctx.lineTo(325, 200);
+        ctx.lineTo(340, 215);
+        ctx.lineTo(355, 215);
+        ctx.lineTo(370, 200);
+        ctx.lineTo(370, 180);
+        ctx.lineTo(355, 165);
+        ctx.lineTo(340, 165);
+        ctx.fillStyle = '#FFF';
+        ctx.fill();
+        ctx.closePath();
+        ctx.font = "23px Arial";
+        ctx.fillStyle = "#000";
+        ctx.fillText("10", 335, 198);
+    }
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBorder();
+        drawInside();
         // drawBricks();
         drawBall();
         drawPaddle();
