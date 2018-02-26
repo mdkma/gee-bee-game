@@ -11,6 +11,8 @@
 
 <script>
     var canvas = document.getElementById("myCanvas");
+    var h = document.getElementById("myCanvas").getAttribute('height').slice(0,-2);
+    var w = document.getElementById("myCanvas").getAttribute('width').slice(0,-2);
     var ctx = canvas.getContext("2d");
     var ballRadius = 10;
     var x = canvas.width/2;
@@ -129,8 +131,51 @@
         ctx.fillStyle = "#0095DD";
         ctx.fillText("Lives: "+lives, canvas.width-65, 20);
     }
+    function drawBorder() {
+        // top pink
+        ctx.beginPath();
+        ctx.rect(70, 0, w-140, 20);
+        ctx.fillStyle = "#E903BB";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(70, 0, 20, 70);
+        ctx.fillStyle = "#E903BB";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(w-70, 0, 20, 70);
+        ctx.fillStyle = "#E903BB";
+        ctx.fill();
+        ctx.closePath();
+        // left purple up
+        ctx.beginPath();
+        ctx.rect(0, 70, 90, 20);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.beginPath();
+        ctx.rect(0, 70, 20, 300);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
+        // right purple up
+        ctx.beginPath();
+        ctx.rect(w-70, 70, 90, 20);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.beginPath();
+        ctx.rect(w-20, 70, 20, 300);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
+    }
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBorder();
         drawBricks();
         drawBall();
         drawPaddle();
@@ -188,7 +233,7 @@
         // move the ball
         x += dx;
         y += dy;
-        requestAnimationFrame(draw);
+        // requestAnimationFrame(draw);
     }
     draw();
 </script>
