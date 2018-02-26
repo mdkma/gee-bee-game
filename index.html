@@ -22,7 +22,7 @@
     var dy = -2;
     var paddleHeight = 10;
     var paddleWidth = 75;
-    var paddleDistance = 400;
+    var paddleDistance = 330;
     var paddleX = (canvas.width-paddleWidth)/2;
     var rightPressed = false;
     var leftPressed = false;
@@ -88,20 +88,20 @@
     function drawBall() {
         ctx.beginPath();
         ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#FF0";
         ctx.fill();
         ctx.closePath();
     }
     function drawPaddle() {
         ctx.beginPath();
         ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#FFF";
         ctx.fill();
         ctx.closePath();
         
         ctx.beginPath();
         ctx.rect(paddleX, canvas.height-paddleHeight-paddleDistance, paddleWidth, paddleHeight);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#FFF";
         ctx.fill();
         ctx.closePath();
     }
@@ -261,20 +261,48 @@
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBorder();
-        drawBricks();
+        // drawBricks();
         drawBall();
         drawPaddle();
         drawScore();
         drawLives();
         collisionDetection();
-        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+
+        if ((y + dy < ballRadius + borderWidth) && (x+dx < w-70-borderWidth) && (x+dx>70+borderWidth)){// top pink
             console.log('1');
+            dy = -dy;
+        } else if (
+            ((x + dx < 70 + borderWidth) || (x + dx > w - 70 - borderWidth)) &&
+            ((y + dy < 70 + borderWidth) && (y + dy > borderWidth + ballRadius))
+            ){// side pink
+            console.log('2');
+            dx = -dx;
+        } else if (
+            ((x + dx > w - 70 - borderWidth) || (x + dx < 70 + borderWidth)) &&
+            (y + dy < 70 + ballRadius + borderWidth)
+            ){//purple horizontal
+            console.log('3');
+            dy = -dy;
+        } else if (
+            (((y + dy < 370) && (y + dy > 70 + borderWidth)) || (y + dy > 510)) &&
+            ((x + dx < borderWidth + ballRadius) || (x + dx >= w - borderWidth - ballRadius))
+            ){//purple side and gray size (vertical)
+            console.log('4');
+            dx = -dx;
+        } else if (
+            ((y + dy < 460) && (y + dy > 420)) &&
+            ((x + dx < 50 + borderWidth + ballRadius) || (x + dx >= w - 50 - borderWidth - ballRadius))
+            ){//blue vertical middle part
+            console.log('5');
+            dx = -dx;
+        }
+
+        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
             // hit left/right wall
             dx = -dx;
         }
         if(y + dy < ballRadius) {
             // hit top wall
-            console.log('2');
             dy = -dy;
         }
         else if(
@@ -282,13 +310,11 @@
             ((y + dy > (canvas.height-ballRadius-paddleDistance)) && (y <= (canvas.height-ballRadius-paddleDistance)))
             ){//detect hit middle paddle
             if(x > paddleX && x < paddleX + paddleWidth) {
-                console.log('4');
                 // hit paddle
                 dy = -dy;
             }
         }
         else if(y + dy > canvas.height-ballRadius) {
-            console.log('3');
             if(x > paddleX && x < paddleX + paddleWidth) {
                 // hit paddle
                 dy = -dy;
@@ -318,7 +344,7 @@
         // move the ball
         x += dx;
         y += dy;
-        // requestAnimationFrame(draw);
+        requestAnimationFrame(draw);
     }
     draw();
 </script>
