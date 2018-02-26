@@ -26,22 +26,33 @@
     var paddleX = (canvas.width-paddleWidth)/2;
     var rightPressed = false;
     var leftPressed = false;
-    var brickRowCount = 5;
-    var brickColumnCount = 3;
-    var brickWidth = 75;
-    var brickHeight = 20;
-    var brickPadding = 10;
+    var brickRowCount = 11;
+    var brickColumnCount = 9;
+    var brickWidth = 25;
+    var brickHeight = 13;
+    var brickPadding = 4;
     var brickOffsetTop = 30;
-    var brickOffsetLeft = 30;
+    var brickOffsetLeft = 102;
     var score = 0;
     var lives = 3;
     var bricks = [];
     for(c=0; c<brickColumnCount; c++) {
         bricks[c] = [];
-        for(r=0; r<brickRowCount; r++) {
+        if (c < 3){
+            var tempRowCount = brickRowCount;
+        } else {
+            var tempRowCount = 5;
+        }
+        for(r=0; r<tempRowCount; r++) {
             bricks[c][r] = { x: 0, y: 0, status: 1 };
         }
     }
+    // for(c=0; c<6; c++) {
+    //     bricks[c] = [];
+    //     for(r=0; r<brickRowCount; r++) {
+    //         bricks[c][r] = { x: 0, y: 0, status: 1 };
+    //     }
+    // }
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -69,7 +80,12 @@
     }
     function collisionDetection() {
         for(c=0; c<brickColumnCount; c++) {
-            for(r=0; r<brickRowCount; r++) {
+            if (c < 3){
+                var tempRowCount = brickRowCount;
+            } else {
+                var tempRowCount = 5;
+            }
+            for(r=0; r<tempRowCount; r++) {
                 var b = bricks[c][r];
                 if(b.status == 1) {
                     if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
@@ -106,8 +122,13 @@
         ctx.closePath();
     }
     function drawBricks() {
-        for(c=0; c<brickColumnCount; c++) {
-            for(r=0; r<brickRowCount; r++) {
+        for(c=0; c<3; c++) {
+            if (c < 3){
+                var tempRowCount = brickRowCount;
+            } else {
+                var tempRowCount = 5;
+            }
+            for(r=0; r<tempRowCount; r++) {
                 if(bricks[c][r].status == 1) {
                     var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
                     var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
@@ -115,7 +136,37 @@
                     bricks[c][r].y = brickY;
                     ctx.beginPath();
                     ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                    ctx.fillStyle = "#0095DD";
+                    ctx.fillStyle = "#E903BB";
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+        }
+        for(c=3; c<6; c++) {
+            for(r=0; r<5; r++) {
+                if(bricks[c][r].status == 1) {
+                    var brickY = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+                    var brickX = (c*(brickHeight+brickPadding))+brickOffsetTop-50;
+                    bricks[c][r].x = brickX;
+                    bricks[c][r].y = brickY;
+                    ctx.beginPath();
+                    ctx.rect(brickX, brickY, brickHeight, brickWidth);
+                    ctx.fillStyle = "#2941fc";
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+        }
+        for(c=6; c<9; c++) {
+            for(r=0; r<5; r++) {
+                if(bricks[c][r].status == 1) {
+                    var brickY = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+                    var brickX = (c*(brickHeight+brickPadding))+brickOffsetTop+292;
+                    bricks[c][r].x = brickX;
+                    bricks[c][r].y = brickY;
+                    ctx.beginPath();
+                    ctx.rect(brickX, brickY, brickHeight, brickWidth);
+                    ctx.fillStyle = "#2941fc";
                     ctx.fill();
                     ctx.closePath();
                 }
@@ -290,13 +341,19 @@
         ctx.font = "23px Arial";
         ctx.fillStyle = "#000";
         ctx.fillText("10", 335, 198);
+
+        ctx.beginPath();
+        ctx.rect(250, 255, paddleHeight, paddleWidth-20);
+        ctx.fillStyle = "#FFF";
+        ctx.fill();
+        ctx.closePath();
     }
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBorder();
         drawInside();
-        // drawBricks();
+        drawBricks();
         drawBall();
         drawPaddle();
         drawScore();
@@ -373,26 +430,26 @@
                 dy = -dy;
             }
         } else if(
-            ((x + dx > 150) && (x <= 150) || (x + dx < 195) && (x >= 195)) &&
+            ((x + dx + ballRadius > 150) && (x <= 150) || (x + dx + ballRadius < 195) && (x >= 195)) &&
             ((y > 165) && (y < 215))
             ){// hit left eye from left or right sides
             console.log('left eye from vertical sides');
             dx = -dx;
         } else if (
-            ((y + dy > 165) && (y <= 165) || (y + dy < 215) && (y >= 215)) &&
+            ((y + dy + ballRadius > 165) && (y <= 165) || (y + dy + ballRadius < 215) && (y >= 215)) &&
             ((x > 150) && (x < 195))
             ){
             // hit left eye from top or down sides
             console.log('left eye from horizontal sides');
             dy = -dy;
         } else if(
-            ((x + dx > 325) && (x <= 325) || (x + dx < 370) && (x >= 370)) &&
+            ((x + dx + ballRadius > 325) && (x <= 325) || (x + dx + ballRadius < 370) && (x >= 370)) &&
             ((y > 165) && (y < 215))
             ){// hit right eye from left or right sides
             console.log('right eye from vertical sides');
             dx = -dx;
         } else if (
-            ((y + dy > 165) && (y <= 165) || (y + dy < 215) && (y >= 215)) &&
+            ((y + dy + ballRadius > 165) && (y <= 165) || (y + dy + ballRadius < 215) && (y >= 215)) &&
             ((x > 325) && (x < 370))
             ){
             // hit right eye from top or down sides
