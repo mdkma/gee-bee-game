@@ -268,6 +268,13 @@
         drawLives();
         collisionDetection();
 
+        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+            dx = -dx;
+        }
+        if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
+            dy = -dy;
+        }
+
         if ((y + dy < ballRadius + borderWidth) && (x+dx < w-70-borderWidth) && (x+dx>70+borderWidth)){// top pink
             console.log('1');
             dy = -dy;
@@ -295,44 +302,40 @@
             ){//blue vertical middle part
             console.log('5');
             dx = -dx;
-        }
-
-        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-            // hit left/right wall
-            dx = -dx;
-        }
-        if(y + dy < ballRadius) {
-            // hit top wall
-            dy = -dy;
-        }
-        else if(
+        } else if (
+            ((x + dx + 350 < y + dy) && (x+dx<50+borderWidth) && (x+dx>borderWidth) && (y+dy<420) && (y+dy>370)) ||
+            ((850 - x - dx < y + dy) && (x+dx>w-50-borderWidth) && (x+dx<w-borderWidth) && (y+dy<420) && (y+dy>370))
+            ){
+            // border blue slope up
+            // left: y = x+ 350; right: y = -x +850
+            console.log('s-blue');
+            tempdx = dx;
+            dx = -dy;
+            dy = -tempdx;
+        } else if (
+            ((530 - x - dx > y + dy) && (x+dx<50+borderWidth) && (x+dx>borderWidth) && (y+dy<510) && (y+dy>460)) ||
+            ((x + dx + 30 > y + dy) && (x+dx>w-50-borderWidth) && (x+dx<w-borderWidth) && (y+dy<510) && (y+dy>460))
+            ){
+            // border blue+pink slope
+            // left: y = -x + 530; right: y = x + 30
+            console.log('s-blue+pink');
+            tempdx = dx;
+            dx = -dy;
+            dy = -tempdx;
+        } else if(
             ((y + dy <= (canvas.height-ballRadius-paddleDistance)) && (y > (canvas.height-ballRadius-paddleDistance))) ||
-            ((y + dy > (canvas.height-ballRadius-paddleDistance)) && (y <= (canvas.height-ballRadius-paddleDistance)))
+            ((y + dy >= (canvas.height-ballRadius-paddleDistance)) && (y < (canvas.height-ballRadius-paddleDistance)))
             ){//detect hit middle paddle
             if(x > paddleX && x < paddleX + paddleWidth) {
-                // hit paddle
+                // hit middle paddle
+                console.log('middle paddle');
                 dy = -dy;
             }
-        }
-        else if(y + dy > canvas.height-ballRadius) {
+        } else if(y + dy > canvas.height-ballRadius) {
             if(x > paddleX && x < paddleX + paddleWidth) {
-                // hit paddle
+                // hit bottom paddle
+                console.log('bottom paddle');
                 dy = -dy;
-            }
-            else {
-                // hit bottom
-                lives--;
-                if(!lives) {
-                    alert("GAME OVER");
-                    document.location.reload();
-                }
-                else {
-                    x = canvas.width/2;
-                    y = canvas.height-30;
-                    dx = 3;
-                    dy = -3;
-                    paddleX = (canvas.width-paddleWidth)/2;
-                }
             }
         }
         if(rightPressed && paddleX < canvas.width-paddleWidth) {
@@ -342,8 +345,8 @@
             paddleX -= 7;
         }
         // move the ball
-        x += dx;
-        y += dy;
+        x += 2*dx;
+        y += 2*dy;
         requestAnimationFrame(draw);
     }
     draw();
