@@ -372,7 +372,34 @@
                 console.log('bottom paddle');
                 dy = -dy;
             }
+        } else if(
+            ((x + dx > 150) && (x <= 150) || (x + dx < 195) && (x >= 195)) &&
+            ((y > 165) && (y < 215))
+            ){// hit left eye from left or right sides
+            console.log('left eye from vertical sides');
+            dx = -dx;
+        } else if (
+            ((y + dy > 165) && (y <= 165) || (y + dy < 215) && (y >= 215)) &&
+            ((x > 150) && (x < 195))
+            ){
+            // hit left eye from top or down sides
+            console.log('left eye from horizontal sides');
+            dy = -dy;
+        } else if(
+            ((x + dx > 325) && (x <= 325) || (x + dx < 370) && (x >= 370)) &&
+            ((y > 165) && (y < 215))
+            ){// hit right eye from left or right sides
+            console.log('right eye from vertical sides');
+            dx = -dx;
+        } else if (
+            ((y + dy > 165) && (y <= 165) || (y + dy < 215) && (y >= 215)) &&
+            ((x > 325) && (x < 370))
+            ){
+            // hit right eye from top or down sides
+            console.log('right eye from horizontal sides');
+            dy = -dy;
         }
+
         if(rightPressed && paddleX < canvas.width-paddleWidth) {
             paddleX += 7;
         }
