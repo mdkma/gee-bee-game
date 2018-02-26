@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<canvas id="myCanvas" width="500px" height="700px"></canvas>
+<canvas id="myCanvas" width="500px" height="650px"></canvas>
 
 <script>
     var canvas = document.getElementById("myCanvas");
@@ -15,6 +15,7 @@
     var w = document.getElementById("myCanvas").getAttribute('width').slice(0,-2);
     var ctx = canvas.getContext("2d");
     var ballRadius = 10;
+    var borderWidth = 20;
     var x = canvas.width/2;
     var y = canvas.height-30;
     var dx = 2;
@@ -134,44 +135,128 @@
     function drawBorder() {
         // top pink
         ctx.beginPath();
-        ctx.rect(70, 0, w-140, 20);
+        ctx.rect(70, 0, w-140, borderWidth);
         ctx.fillStyle = "#E903BB";
         ctx.fill();
         ctx.closePath();
         ctx.beginPath();
-        ctx.rect(70, 0, 20, 70);
+        ctx.rect(70, 0, borderWidth, 70);
         ctx.fillStyle = "#E903BB";
         ctx.fill();
         ctx.closePath();
         ctx.beginPath();
-        ctx.rect(w-70, 0, 20, 70);
+        ctx.rect(w-70, 0, borderWidth, 70);
         ctx.fillStyle = "#E903BB";
         ctx.fill();
         ctx.closePath();
         // left purple up
         ctx.beginPath();
-        ctx.rect(0, 70, 90, 20);
+        ctx.rect(0, 70, 70+borderWidth, borderWidth);
         ctx.fillStyle = "#8B03E9";
         ctx.fill();
         ctx.closePath();
         ctx.beginPath();
         ctx.beginPath();
-        ctx.rect(0, 70, 20, 300);
+        ctx.rect(0, 70, borderWidth, 300);
         ctx.fillStyle = "#8B03E9";
         ctx.fill();
         ctx.closePath();
         // right purple up
         ctx.beginPath();
-        ctx.rect(w-70, 70, 90, 20);
+        ctx.rect(w-70, 70, borderWidth+70, borderWidth);
         ctx.fillStyle = "#8B03E9";
         ctx.fill();
         ctx.closePath();
         ctx.beginPath();
         ctx.beginPath();
-        ctx.rect(w-20, 70, 20, 300);
+        ctx.rect(w-borderWidth, 70, borderWidth, 300);
         ctx.fillStyle = "#8B03E9";
         ctx.fill();
         ctx.closePath();
+        // left blue middle part
+        ctx.beginPath();
+        ctx.moveTo(0, 370);
+        ctx.lineTo(50, 420);
+        ctx.lineTo(50+borderWidth, 420);
+        ctx.lineTo(borderWidth, 370);
+        ctx.fillStyle = '#2941fc';
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(50, 420, borderWidth, 40);
+        ctx.fillStyle = '#2941fc';
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(50, 460);
+        ctx.lineTo(30, 480);
+        ctx.lineTo(30+borderWidth, 480);
+        ctx.lineTo(50+borderWidth, 460);
+        ctx.fillStyle = '#2941fc';
+        ctx.fill();
+        ctx.closePath();
+        // right blue middle part
+        ctx.beginPath();
+        ctx.moveTo(w-borderWidth, 370);
+        ctx.lineTo(w-borderWidth-50, 420);
+        ctx.lineTo(w-50, 420);
+        ctx.lineTo(w, 370);
+        ctx.fillStyle = '#2941fc';
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(w-borderWidth-50, 420, borderWidth, 40);
+        ctx.fillStyle = '#2941fc';
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(w-borderWidth-50, 460);
+        ctx.lineTo(w-borderWidth-30, 480);
+        ctx.lineTo(w-30, 480);
+        ctx.lineTo(w-50, 460);
+        ctx.fillStyle = '#2941fc';
+        ctx.fill();
+        ctx.closePath();
+        // middle pink part
+        ctx.beginPath();
+        ctx.moveTo(30, 480);
+        ctx.lineTo(0, 510);
+        ctx.lineTo(borderWidth, 510);
+        ctx.lineTo(30+borderWidth, 480);
+        ctx.fillStyle = '#E903BB';
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(w-borderWidth-30, 480);
+        ctx.lineTo(w-borderWidth, 510);
+        ctx.lineTo(w, 510);
+        ctx.lineTo(w-30, 480);
+        ctx.fillStyle = '#E903BB';
+        ctx.fill();
+        ctx.closePath();
+        //buttom purple part
+        ctx.beginPath();
+        ctx.rect(0, 510, borderWidth, 80);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(w-borderWidth, 510, borderWidth, 80);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
+        // buttom grey part
+        ctx.beginPath();
+        ctx.rect(0, 590, borderWidth, 30);
+        ctx.fillStyle = "#EEE";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(w-borderWidth, 590, borderWidth, 30);
+        ctx.fillStyle = "#EEE";
+        ctx.fill();
+        ctx.closePath();
+
     }
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
