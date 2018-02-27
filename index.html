@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Gee Bee Game - Mingyu MA/Derek</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>* { padding: 0; margin: 0; } canvas { background: #000; display: block; margin: 0 auto; }
+    <style>* { padding: 0; margin: 0; } canvas { background: rgba(0, 220, 4, 0.709); display: block; margin: 0 auto; }
         #notice {
             margin-left: 100px;
         }
@@ -14,7 +14,6 @@
     </style>
 </head>
 <body>
-
 <canvas id="myCanvas" width="500px" height="650px"></canvas>
 <div id="notice">
     <button type="button" class="btn btn-danger mt-3" onclick="quit()">QUIT</button>
@@ -50,7 +49,7 @@
     var rightPressed = false;
     var leftPressed = false;
     var brickRowCount = 11;
-    var brickColumnCount = 9;
+    var brickColumnCount = 11;
     var brickWidth = 25;
     var brickHeight = 13;
     var brickPadding = 4;
@@ -63,8 +62,10 @@
         bricks[c] = [];
         if (c < 3){
             var tempRowCount = brickRowCount;
-        } else {
+        } else if (c < 9) {
             var tempRowCount = 5;
+        } else {
+            var tempRowCount = 3;
         }
         for(r=0; r<tempRowCount; r++) {
             bricks[c][r] = { x: 0, y: 0, status: 1 };
@@ -84,9 +85,9 @@
             if (event.target.value == 'Slow'){
                 speed = 0.5;
             } else if (event.target.value == 'Middle'){
-                speed = 1.2;
+                speed = 1;
             } else {
-                speed = 2;
+                speed = 1.4;
             }
         }
     }
@@ -116,8 +117,10 @@
         for(c=0; c<brickColumnCount; c++) {
             if (c < 3){
                 var tempRowCount = brickRowCount;
-            } else {
+            } else if (c < 9) {
                 var tempRowCount = 5;
+            } else {
+                var tempRowCount = 3;
             }
             for(r=0; r<tempRowCount; r++) {
                 var b = bricks[c][r];
@@ -213,6 +216,35 @@
                     ctx.fill();
                     ctx.closePath();
                 }
+            }
+        }
+        // bricks inside blue small part
+        c = 9;
+        for(r=0; r<3; r++) {
+            if(bricks[c][r].status == 1) {
+                var brickX = ((brickWidth+brickPadding))+brickOffsetLeft-100;
+                var brickY = (c*(brickHeight+brickPadding))+r*0.5*brickOffsetTop+130;
+                bricks[c][r].x = brickX;
+                bricks[c][r].y = brickY;
+                ctx.beginPath();
+                ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                ctx.fillStyle = "#2941fc";
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+        c = 10;
+        for(r=0; r<3; r++) {
+            if(bricks[c][r].status == 1) {
+                var brickX = ((brickWidth+brickPadding))+brickOffsetLeft+315;
+                var brickY = (c*(brickHeight+brickPadding))+r*0.5*brickOffsetTop+115;
+                bricks[c][r].x = brickX;
+                bricks[c][r].y = brickY;
+                ctx.beginPath();
+                ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                ctx.fillStyle = "#2941fc";
+                ctx.fill();
+                ctx.closePath();
             }
         }
     }
@@ -346,6 +378,40 @@
         ctx.fillStyle = "#EEE";
         ctx.fill();
         ctx.closePath();
+        // blue wall inside left
+        ctx.beginPath();
+        ctx.rect(borderWidth, 260, 45, borderWidth-5);
+        ctx.fillStyle = "#2941fc";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(borderWidth+45, 260, borderWidth-5, 80);
+        ctx.fillStyle = "#2941fc";
+        ctx.fill();
+        ctx.closePath();
+        // blue wall inside right
+        ctx.beginPath();
+        ctx.rect(w-borderWidth-45, 260, 45, borderWidth-5);
+        ctx.fillStyle = "#2941fc";
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(w-borderWidth-60, 260, borderWidth-5, 80);
+        ctx.fillStyle = "#2941fc";
+        ctx.fill();
+        ctx.closePath();
+        // purple inside bottom
+        ctx.beginPath();
+        ctx.rect(100, h-60, borderWidth-5, 30);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
+        // purple inside bottom
+        ctx.beginPath();
+        ctx.rect(w-100, h-60, borderWidth-5, 30);
+        ctx.fillStyle = "#8B03E9";
+        ctx.fill();
+        ctx.closePath();
     }
 
     function drawInside() {
@@ -381,9 +447,30 @@
         ctx.fillStyle = "#000";
         ctx.fillText("10", 335, 198);
 
+        // lower nose
         ctx.beginPath();
         ctx.rect(250, 255, paddleHeight, paddleWidth-20);
         ctx.fillStyle = "#FFF";
+        ctx.fill();
+        ctx.closePath();
+        // upper nose
+        ctx.beginPath();
+        ctx.moveTo(295, 220);
+        ctx.lineTo(295, 230);
+        ctx.lineTo(285, 225);
+        ctx.fillStyle = '#FFF';
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(215, 220);
+        ctx.lineTo(215, 230);
+        ctx.lineTo(225, 225);
+        ctx.fillStyle = '#FFF';
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.rect(225, 220, 60, paddleHeight);
+        ctx.fillStyle = "#2941fc";
         ctx.fill();
         ctx.closePath();
     }
@@ -496,40 +583,31 @@
             console.log('right eye from horizontal sides');
             score += 10;
             dy = -dy;
+        } else if (
+            (((x + dx <= 85) && (x > 85)) || ((x + dx >= 85) && (x < 85))) && 
+            ((y + dy >= 260) && (y + dy <= 340))
+            ){
+            console.log("inside blue left inside/outside vertical")
+            dx = -dx;
+        } else if (
+            (((y + dy >= 260) && (y < 260)) || ((y + dy <= 260) && (y > 260))) && 
+            ((x + dx >= 0) && (x + dx <= 85))
+            ){
+            console.log("inside blue left inside/outside horizontal")
+            dy = -dy;
+        } else if (
+            (((x + dx >= w-65) && (x < w-65)) || ((x + dx <= w-65) && (x > w-65))) && 
+            ((y + dy >= 260) && (y + dy <= 340))
+            ){
+            console.log("inside blue right inside/outside vertical")
+            dx = -dx;
+        } else if (
+            (((y + dy >= 260) && (y < 260)) || ((y + dy <= 260) && (y > 260))) &&
+            ((x + dx >= w - 65) && (x + dx <= w))
+            ){
+            console.log("inside blue right inside/outside horizontal")
+            dy = -dy;
         }
-        // } else if(
-        //     ((y + dy > 165) || (y + dy < 225)) &&
-        //     ((y < 165) && (x > 225)) &&
-        //     ((x > 150) && (y < 195)) //165 225
-        //     ){// hit left eye from left or right sides
-        //     console.log('left eye from horizontal sides');
-        //     score += 10;
-        //     dy = -dy;
-        // }
-        // } else if (
-        //     ((y + dy + ballRadius > 165) || (y + dy + ballRadius < 215)) &&
-        //     ((x > 150) && (x < 195))
-        //     ){
-        //     // hit left eye from top or down sides
-        //     console.log('left eye from horizontal sides');
-        //     score += 10;
-        //     dy = -dy;
-        // } else if(
-        //     ((x + dx + ballRadius > 325) || (x + dx + ballRadius < 370)) &&
-        //     ((y > 165) && (y < 215))
-        //     ){// hit right eye from left or right sides
-        //     console.log('right eye from vertical sides');
-        //     score += 10;
-        //     dx = -dx;
-        // } else if (
-        //     ((y + dy + ballRadius > 165) || (y + dy + ballRadius < 215)) &&
-        //     ((x > 325) && (x < 370))
-        //     ){
-        //     // hit right eye from top or down sides
-        //     console.log('right eye from horizontal sides');
-        //     score += 10;
-        //     dy = -dy;
-        // }
 
         if(rightPressed && paddleX < canvas.width-paddleWidth) {
             paddleX += 7;
