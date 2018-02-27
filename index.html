@@ -2,12 +2,22 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Breakout</title>
-    <style>* { padding: 0; margin: 0; } canvas { background: #000; display: block; margin: 0 auto; }</style>
+    <title>Gee Bee Game - Mingyu MA/Derek</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>* { padding: 0; margin: 0; } canvas { background: #000; display: block; margin: 0 auto; }
+        #notice {
+            margin-left: 100px;
+        }
+    </style>
 </head>
 <body>
 
 <canvas id="myCanvas" width="500px" height="650px"></canvas>
+<div id="notice">
+    <button type="button" class="btn btn-danger mt-3" onclick="quit()">QUIT</button>
+    <a href="README.html" target="_blank"><button type="button" class="btn btn-primary mt-3">Check README</button></a>
+    <p class="mt-3 text-align-center">&copy; <a href="http://derek.ma" target="_blank">Mingyu MA / Derek</a></p>
+</div>
 
 <script>
     var canvas = document.getElementById("myCanvas");
@@ -20,6 +30,7 @@
     var y = canvas.height-30;
     var dx = 2;
     var dy = -2;
+    var timeCount = 60;
     var paddleHeight = 10;
     var paddleWidth = 75;
     var paddleDistance = 330;
@@ -47,12 +58,6 @@
             bricks[c][r] = { x: 0, y: 0, status: 1 };
         }
     }
-    // for(c=0; c<6; c++) {
-    //     bricks[c] = [];
-    //     for(r=0; r<brickRowCount; r++) {
-    //         bricks[c][r] = { x: 0, y: 0, status: 1 };
-    //     }
-    // }
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -91,7 +96,7 @@
                     if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                         dy = -dy;
                         b.status = 0;
-                        score++;
+                        score += 10;
                         if(score == brickRowCount*brickColumnCount) {
                             alert("YOU WIN, CONGRATS!");
                             document.location.reload();
@@ -101,6 +106,15 @@
             }
         }
     }
+
+    setInterval(function() { 
+        timeCount -= 1; 
+        if (timeCount <= 0){
+            quit();
+        }
+    }, 1000);
+
+
     function drawBall() {
         ctx.beginPath();
         ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -174,14 +188,10 @@
         }
     }
     function drawScore() {
-        ctx.font = "16px Arial";
-        ctx.fillStyle = "#0095DD";
-        ctx.fillText("Score: "+score, 8, 20);
-    }
-    function drawLives() {
-        ctx.font = "16px Arial";
-        ctx.fillStyle = "#0095DD";
-        ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "#FFF";
+        ctx.fillText("Score: "+score, 200, 500);
+        ctx.fillText("Time Left: "+timeCount+'s', 190, 530);
     }
     function drawBorder() {
         // top pink
@@ -357,7 +367,6 @@
         drawBall();
         drawPaddle();
         drawScore();
-        drawLives();
         collisionDetection();
 
         if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
@@ -401,9 +410,9 @@
             // border blue slope up
             // left: y = x+ 350; right: y = -x +850
             console.log('s-blue');
-            tempdx = dx;
-            dx = -dy;
-            dy = -tempdx;
+            // tempdx = dx;
+            dx = -dx;
+            dy = -dy;
         } else if (
             ((530 - x - dx > y + dy) && (x+dx<50+borderWidth) && (x+dx>borderWidth) && (y+dy<510) && (y+dy>460)) ||
             ((x + dx + 30 > y + dy) && (x+dx>w-50-borderWidth) && (x+dx<w-borderWidth) && (y+dy<510) && (y+dy>460))
@@ -411,9 +420,9 @@
             // border blue+pink slope
             // left: y = -x + 530; right: y = x + 30
             console.log('s-blue+pink');
-            tempdx = dx;
-            dx = -dy;
-            dy = -tempdx;
+            // tempdx = dx;
+            dx = -dx;
+            dy = -dy;
         } else if(
             ((y + dy <= (canvas.height-ballRadius-paddleDistance)) && (y > (canvas.height-ballRadius-paddleDistance))) ||
             ((y + dy >= (canvas.height-ballRadius-paddleDistance)) && (y < (canvas.height-ballRadius-paddleDistance)))
@@ -430,32 +439,68 @@
                 dy = -dy;
             }
         } else if(
-            ((x + dx + ballRadius > 150) && (x <= 150) || (x + dx + ballRadius < 195) && (x >= 195)) &&
-            ((y > 165) && (y < 215))
+            (((x + dx >= 150) && (x < 150)) || ((x + dx <= 195) && (x > 195))) &&
+            ((y > 150) && (y < 240)) //165 225
             ){// hit left eye from left or right sides
             console.log('left eye from vertical sides');
+            score += 10;
             dx = -dx;
-        } else if (
-            ((y + dy + ballRadius > 165) && (y <= 165) || (y + dy + ballRadius < 215) && (y >= 215)) &&
-            ((x > 150) && (x < 195))
+        } else if(
+            (((y + dy >= 165) && (y < 165)) || ((y + dy <= 225) && (y > 225))) &&
+            ((x > 135) && (x < 210)) //150 195
             ){
-            // hit left eye from top or down sides
             console.log('left eye from horizontal sides');
+            score += 10;
             dy = -dy;
         } else if(
-            ((x + dx + ballRadius > 325) && (x <= 325) || (x + dx + ballRadius < 370) && (x >= 370)) &&
-            ((y > 165) && (y < 215))
+            (((x + dx >= 325) && (x < 325)) || ((x + dx < 370) && (x > 370))) &&
+            ((y > 150) && (y < 240))
             ){// hit right eye from left or right sides
             console.log('right eye from vertical sides');
+            score += 10;
             dx = -dx;
         } else if (
-            ((y + dy + ballRadius > 165) && (y <= 165) || (y + dy + ballRadius < 215) && (y >= 215)) &&
-            ((x > 325) && (x < 370))
+            (((y + dy >= 165) && (y < 165)) || ((y + dy <= 225) && (y > 225))) &&
+            ((x > 310) && (x < 385))
             ){
             // hit right eye from top or down sides
             console.log('right eye from horizontal sides');
+            score += 10;
             dy = -dy;
         }
+        // } else if(
+        //     ((y + dy > 165) || (y + dy < 225)) &&
+        //     ((y < 165) && (x > 225)) &&
+        //     ((x > 150) && (y < 195)) //165 225
+        //     ){// hit left eye from left or right sides
+        //     console.log('left eye from horizontal sides');
+        //     score += 10;
+        //     dy = -dy;
+        // }
+        // } else if (
+        //     ((y + dy + ballRadius > 165) || (y + dy + ballRadius < 215)) &&
+        //     ((x > 150) && (x < 195))
+        //     ){
+        //     // hit left eye from top or down sides
+        //     console.log('left eye from horizontal sides');
+        //     score += 10;
+        //     dy = -dy;
+        // } else if(
+        //     ((x + dx + ballRadius > 325) || (x + dx + ballRadius < 370)) &&
+        //     ((y > 165) && (y < 215))
+        //     ){// hit right eye from left or right sides
+        //     console.log('right eye from vertical sides');
+        //     score += 10;
+        //     dx = -dx;
+        // } else if (
+        //     ((y + dy + ballRadius > 165) || (y + dy + ballRadius < 215)) &&
+        //     ((x > 325) && (x < 370))
+        //     ){
+        //     // hit right eye from top or down sides
+        //     console.log('right eye from horizontal sides');
+        //     score += 10;
+        //     dy = -dy;
+        // }
 
         if(rightPressed && paddleX < canvas.width-paddleWidth) {
             paddleX += 7;
@@ -468,8 +513,16 @@
         y += 2*dy;
         requestAnimationFrame(draw);
     }
+
+    function quit(){
+        alert('GAME ENDS!\nYour score is: '+score+'\nClick OK to restart a new one!');
+        location.reload();
+    }
+
     draw();
 </script>
-
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
