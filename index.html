@@ -607,6 +607,12 @@
             ){
             console.log("inside blue right inside/outside horizontal")
             dy = -dy;
+        } else if (
+            (((x + dx >= 250) && (x < 250)) || ((x + dx <= 250) && (x > 250))) && 
+            ((y + dy >= 255) && (y + dy <= 255+paddleWidth-20))
+            ){
+            console.log("lower nose")
+            dx = -dx;
         }
 
         if(rightPressed && paddleX < canvas.width-paddleWidth) {
