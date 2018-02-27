@@ -556,28 +556,28 @@
             }
         } else if(
             (((x + dx >= 150) && (x < 150)) || ((x + dx <= 195) && (x > 195))) &&
-            ((y > 150) && (y < 240)) //165 225
+            ((y + dy > 165) && (y + dy < 225)) //165 225
             ){// hit left eye from left or right sides
             console.log('left eye from vertical sides');
             score += 10;
             dx = -dx;
         } else if(
             (((y + dy >= 165) && (y < 165)) || ((y + dy <= 225) && (y > 225))) &&
-            ((x > 135) && (x < 210)) //150 195
+            ((x + dx > 150) && (x + dx < 195)) //150 195
             ){
             console.log('left eye from horizontal sides');
             score += 10;
             dy = -dy;
         } else if(
             (((x + dx >= 325) && (x < 325)) || ((x + dx < 370) && (x > 370))) &&
-            ((y > 150) && (y < 240))
+            ((y + dy > 165) && (y + dy < 225))
             ){// hit right eye from left or right sides
             console.log('right eye from vertical sides');
             score += 10;
             dx = -dx;
         } else if (
             (((y + dy >= 165) && (y < 165)) || ((y + dy <= 225) && (y > 225))) &&
-            ((x > 310) && (x < 385))
+            ((x + dx > 325) && (x + dx < 370))
             ){
             // hit right eye from top or down sides
             console.log('right eye from horizontal sides');
