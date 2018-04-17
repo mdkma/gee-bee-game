@@ -53,7 +53,7 @@
     var speed = 0.5;
     var dx = 2;
     var dy = -2;
-    var timeCount = 60;
+    var timeCount = 6000;
     var paddleHeight = 10;
     var paddleWidth = 75;
     var paddleDistance = 330;
@@ -86,6 +86,7 @@
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
+    document.addEventListener("touchmove", touchMoveHandler, false);
     document.addEventListener('DOMContentLoaded',function() {
         document.querySelector('select[name="speed"]').onchange=changeEventHandler;
         document.querySelector('select[name="ballsize"]').onchange=changeEventHandler2;
@@ -135,6 +136,12 @@
     }
     function mouseMoveHandler(e) {
         var relativeX = e.clientX - canvas.offsetLeft;
+        if(relativeX > 0 && relativeX < canvas.width) {
+            paddleX = relativeX - paddleWidth/2;
+        }
+    }
+    function touchMoveHandler(e){
+        var relativeX = e.touches[0].clientX - canvas.offsetLeft;
         if(relativeX > 0 && relativeX < canvas.width) {
             paddleX = relativeX - paddleWidth/2;
         }
