@@ -18,6 +18,7 @@
 <div id="notice">
     <button type="button" class="btn btn-danger mt-3" onclick="quit()">QUIT</button>
     <a href="README.html" target="_blank"><button type="button" class="btn btn-primary mt-3">Check README</button></a>
+    <p>Hitting pink bricks wins 10 scores; blue bricks for 50 scores. </p>
     <div id="speed-form" class="mt-3">
         <label for="Choose a speed">Choose Speed:</label>
         <select class="form-control" id="speed-selector" name="speed">
@@ -128,7 +129,11 @@
                     if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                         dy = -dy;
                         b.status = 0;
-                        score += 10;
+                        if (c < 3){
+                            score += 10;
+                        } else {
+                            score += 50;
+                        }
                         if(score == brickRowCount*brickColumnCount) {
                             alert("YOU WIN, CONGRATS!");
                             document.location.reload();
@@ -400,18 +405,18 @@
         ctx.fillStyle = "#2941fc";
         ctx.fill();
         ctx.closePath();
-        // purple inside bottom
-        ctx.beginPath();
-        ctx.rect(100, h-60, borderWidth-5, 30);
-        ctx.fillStyle = "#8B03E9";
-        ctx.fill();
-        ctx.closePath();
-        // purple inside bottom
-        ctx.beginPath();
-        ctx.rect(w-100, h-60, borderWidth-5, 30);
-        ctx.fillStyle = "#8B03E9";
-        ctx.fill();
-        ctx.closePath();
+        // // purple inside bottom
+        // ctx.beginPath();
+        // ctx.rect(100, h-60, borderWidth-5, 30);
+        // ctx.fillStyle = "#8B03E9";
+        // ctx.fill();
+        // ctx.closePath();
+        // // purple inside bottom
+        // ctx.beginPath();
+        // ctx.rect(w-100, h-60, borderWidth-5, 30);
+        // ctx.fillStyle = "#8B03E9";
+        // ctx.fill();
+        // ctx.closePath();
     }
 
     function drawInside() {
@@ -484,13 +489,6 @@
         drawPaddle();
         drawScore();
         collisionDetection();
-
-        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-            dx = -dx;
-        }
-        if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
-            dy = -dy;
-        }
 
         if ((y + dy < ballRadius + borderWidth) && (x+dx < w-70-borderWidth) && (x+dx>70+borderWidth)){// top pink
             console.log('1');
@@ -613,6 +611,15 @@
             ){
             console.log("lower nose")
             dx = -dx;
+        }
+
+        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+            dx = -dx;
+        }
+        if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
+            // dy = -dy;
+            alert("Dead! Hit bottom.");
+            quit();
         }
 
         if(rightPressed && paddleX < canvas.width-paddleWidth) {
