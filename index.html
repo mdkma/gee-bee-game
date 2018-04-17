@@ -161,11 +161,11 @@
         ctx.fill();
         ctx.closePath();
         
-        ctx.beginPath();
-        ctx.rect(paddleX, canvas.height-paddleHeight-paddleDistance, paddleWidth, paddleHeight);
-        ctx.fillStyle = "#FFF";
-        ctx.fill();
-        ctx.closePath();
+        // ctx.beginPath();
+        // ctx.rect(paddleX, canvas.height-paddleHeight-paddleDistance, paddleWidth, paddleHeight);
+        // ctx.fillStyle = "#FFF";
+        // ctx.fill();
+        // ctx.closePath();
     }
     function drawBricks() {
         for(c=0; c<3; c++) {
@@ -539,15 +539,15 @@
             // tempdx = dx;
             dx = -dx;
             dy = -dy;
-        } else if(
-            ((y + dy <= (canvas.height-ballRadius-paddleDistance)) && (y > (canvas.height-ballRadius-paddleDistance))) ||
-            ((y + dy >= (canvas.height-ballRadius-paddleDistance)) && (y < (canvas.height-ballRadius-paddleDistance)))
-            ){//detect hit middle paddle
-            if(x > paddleX && x < paddleX + paddleWidth) {
-                // hit middle paddle
-                console.log('middle paddle');
-                dy = -dy;
-            }
+        // } else if(
+        //     ((y + dy <= (canvas.height-ballRadius-paddleDistance)) && (y > (canvas.height-ballRadius-paddleDistance))) ||
+        //     ((y + dy >= (canvas.height-ballRadius-paddleDistance)) && (y < (canvas.height-ballRadius-paddleDistance)))
+        //     ){//detect hit middle paddle
+        //     if(x > paddleX && x < paddleX + paddleWidth) {
+        //         // hit middle paddle
+        //         console.log('middle paddle');
+        //         dy = -dy;
+        //     }
         } else if(y + dy > canvas.height-ballRadius) {
             if(x > paddleX && x < paddleX + paddleWidth) {
                 // hit bottom paddle
