@@ -54,7 +54,7 @@
     var speed = 0.5;
     var dx = 2;
     var dy = -2;
-    var timeCount = 6000;
+    var timeCount = 60;
     var paddleHeight = 10;
     var paddleWidth = 75;
     var paddleDistance = 330;
@@ -655,7 +655,7 @@
             dx = -dx;
         }
         if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
-            // dy = -dy;
+            dy = -dy;
             // alert("Dead! Hit bottom.");
             // quit();
             score = 0;
