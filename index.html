@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Gee Bee Game - Mingyu MA/Derek</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>* { padding: 0; margin: 0; } canvas { background: rgba(0, 220, 4, 0.709); display: block; margin: 0 auto; }
         #notice {
@@ -17,7 +18,7 @@
     </style>
 </head>
 <body>
-<canvas id="myCanvas" width="500px" height="650px"></canvas>
+<canvas id="myCanvas" width="500px" height="650px" style="width: 350px;"></canvas>
 <div id="notice">
     <button type="button" class="btn btn-danger mt-3" onclick="quit()">QUIT</button>
     <a href="README.html" target="_blank"><button type="button" class="btn btn-primary mt-3">Check README</button></a>
@@ -53,7 +54,7 @@
     var speed = 0.5;
     var dx = 2;
     var dy = -2;
-    var timeCount = 60;
+    var timeCount = 6000;
     var paddleHeight = 10;
     var paddleWidth = 75;
     var paddleDistance = 330;
@@ -137,13 +138,17 @@
     function mouseMoveHandler(e) {
         var relativeX = e.clientX - canvas.offsetLeft;
         if(relativeX > 0 && relativeX < canvas.width) {
-            paddleX = relativeX - paddleWidth/2;
+            // paddleX = relativeX - paddleWidth/2;
+            paddleX = relativeX*2 - paddleWidth*2;
         }
     }
     function touchMoveHandler(e){
+        console.log(e);
         var relativeX = e.touches[0].clientX - canvas.offsetLeft;
+        console.log(relativeX);
         if(relativeX > 0 && relativeX < canvas.width) {
-            paddleX = relativeX - paddleWidth/2;
+            // paddleX = relativeX - paddleWidth/2;
+            paddleX = e.touches[0].clientX*2  - paddleWidth*2;
         }
     }
     function collisionDetection() {
@@ -520,6 +525,7 @@
         drawBall();
         drawPaddle();
         drawScore();
+        // ctx.scale(0.5,0.5);
         collisionDetection();
 
         if ((y + dy < ballRadius + borderWidth) && (x+dx < w-70-borderWidth) && (x+dx>70+borderWidth)){// top pink
@@ -650,8 +656,9 @@
         }
         if(y + dy < ballRadius || y + dy > canvas.height - ballRadius) {
             // dy = -dy;
-            alert("Dead! Hit bottom.");
-            quit();
+            // alert("Dead! Hit bottom.");
+            // quit();
+            score = 0;
         }
 
         if(rightPressed && paddleX < canvas.width-paddleWidth) {
@@ -667,11 +674,13 @@
     }
 
     function quit(){
-        alert('GAME ENDS!\nYour score is: '+score+'.\nClick OK to restart a new one!');
         location.reload();
+        alert('GAME ENDS!\nYour score is: '+score+'.\nClick OK to restart a new one!');
     }
 
+    // ctx.scale(0.7,1);
     draw();
+    // ctx.restore();
 </script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
