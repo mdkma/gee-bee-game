@@ -2,7 +2,7 @@
 
 Mingyu MA/Derek :: [derek.ma](http://derek.ma) :: derek.ma@connect.polyu.hk
 
-![UI on Android phone](./img/android_demo/jpg)
+![UI on Android phone](./img/android_demo.jpg)
 
 ## Version
 
