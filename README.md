@@ -2,6 +2,12 @@
 
 Mingyu MA/Derek :: [derek.ma](http://derek.ma) :: derek.ma@connect.polyu.hk
 
+**Try the Web version here:**
+https://derekmma.github.io/gee-bee-game/
+
+**Download the Android version here:**
+https://github.com/derekmma/gee-bee-game/blob/master/GeeBeeGame.apk
+
 ![UI on Android phone](./img/android_demo.jpg)
 
 ## Version
